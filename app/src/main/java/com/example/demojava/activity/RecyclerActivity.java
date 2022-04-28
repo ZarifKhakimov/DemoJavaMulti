@@ -21,6 +21,7 @@ public class RecyclerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_recycler);
         initViews();
 
@@ -41,10 +42,11 @@ public class RecyclerActivity extends AppCompatActivity {
         List<Member> members = new ArrayList<>();
 
         for(int i = 0; i < 30; i++ ){
+
             if(i == 0 || i == 5 || i == 16 || i == 25){
-                members.add(new Member(14 + i, "Zarifjon" + i, false));
+                members.add(new Member(14 + i, "Zarifjonn" + i, false));
             } else {
-                members.add(new Member(14 + i, "Zarifjon" + i, true));
+                members.add(new Member(14 + i, "Zarifjonn" + i, true));
             }
 
         }
