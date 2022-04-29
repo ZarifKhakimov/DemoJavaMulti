@@ -7,10 +7,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.demojava.R;
 import com.example.demojava.model.Member;
+import com.example.demojava.model.MemberSub;
 
 import java.util.List;
 
@@ -20,18 +22,18 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private Context context;
     private List<Member> members;
+    private RecyclerView recyclerView;
 
     public RecyclerAdapter(Context context, List<Member> members) {
         this.context= context;
         this.members= members;
     }
 
-
     @Override
     public int getItemViewType(int position) {
-        if(members.get(position).isAvailable()){
-            return TYPE_AVAILABLE_YES;
-        }
+
+        if(members.get(position).getMemberSubs() != null ) return TYPE_AVAILABLE_YES;
+
         return TYPE_AVAILABLE_NO;
     }
 
@@ -44,11 +46,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         if(viewType == TYPE_AVAILABLE_YES){
             View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_member_view_yes, viewGroup, false);
-            return new CustomViewYesHolder(view);
+            return new CustomViewHolder(view);
         }
 
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_member_view_no, viewGroup, false);
-        return new CustomViewNotHolder(view);
+        return new CustomViewHolder(view);
     }
 
     @Override
@@ -56,48 +58,42 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         Member member =  members.get(position);
 
-        if(holder instanceof CustomViewYesHolder){
-            TextView name = ((CustomViewYesHolder) holder).name;
-            TextView age = ((CustomViewYesHolder) holder).age;
+        if(holder instanceof CustomListHolder){
 
-            name.setText(member.getName());
-            age.setId(member.getAge());
         }
 
-        if(holder instanceof CustomViewNotHolder){
-            TextView name = ((CustomViewNotHolder) holder).name;
-            TextView age = ((CustomViewNotHolder) holder).age;
+        if(holder instanceof CustomViewHolder){
+            RecyclerView recyclerView = ((CustomViewHolder) holder).reyclerview;
+            recyclerView.setLayoutManager(new GridLayoutManager(context, 1));
 
-            name.setText("Name isn't Available");
-            age.setText("Age isn't Available");
+            List<MemberSub> memberSubs = member.getMemberSubs();
+            refreshAdapter(recyclerView, memberSubs);
         }
     }
 
-    public class CustomViewYesHolder extends RecyclerView.ViewHolder {
-        public View view;
-        public TextView age, name;
+    private void refreshAdapter(RecyclerView recyclerView, List<MemberSub> memberSubs){
+        CustomSubAdapter adapter = new CustomSubAdapter(context, memberSubs);
+        recyclerView.setAdapter(adapter);
+    }
 
-        public CustomViewYesHolder(View v){
+    public class CustomViewHolder extends RecyclerView.ViewHolder {
+        public View view;
+        public RecyclerView reyclerview;
+
+        public CustomViewHolder(View v){
             super(v);
             view = v;
-
-            name = view.findViewById(R.id.name);
-            age = view.findViewById(R.id.age);
         }
     }
 
-    public class CustomViewNotHolder extends RecyclerView.ViewHolder {
+    public class CustomListHolder extends RecyclerView.ViewHolder {
         public View view;
-        public TextView name, age;
 
-        public CustomViewNotHolder(View v){
+        public CustomListHolder(View v){
             super(v);
             view = v;
-
-            name = view.findViewById(R.id.name);
-            age = view.findViewById(R.id.age);
+        recyclerView = view.findViewById(R.id.recyclerview);
         }
     }
-
 
 }

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.demojava.R;
 import com.example.demojava.adapter.RecyclerAdapter;
 import com.example.demojava.model.Member;
+import com.example.demojava.model.MemberSub;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,12 +44,21 @@ public class RecyclerActivity extends AppCompatActivity {
 
         for(int i = 0; i < 30; i++ ){
 
-            if(i == 0 || i == 5 || i == 16 || i == 25){
-                members.add(new Member(14 + i, "Zarifjonn" + i, false));
+            if(i == 1 || i == 10){
+                members.add(new Member(14 + i, "Zarifjonn" + i, prepareSubMembers()));
             } else {
-                members.add(new Member(14 + i, "Zarifjonn" + i, true));
+                members.add(new Member(14 + i, "Zarifjonn" + i, null));
             }
 
+        }
+        return members;
+    }
+
+    private List<MemberSub> prepareSubMembers() {
+        List<MemberSub> members = new ArrayList<>();
+
+        for(int i = 0; i < 5; i++){
+            members.add(new MemberSub());
         }
         return members;
     }

@@ -1,24 +1,21 @@
 package com.example.demojava.model;
 
+import java.util.List;
+
 public class Member {
 
     private int age;
     private String name;
-    private boolean available = false;
+    private List<MemberSub> memberSubs;
 
 
-    public Member(int age, String name, boolean available){
+    public Member(int age, String name, List<MemberSub> memberSubs){
         this.age = age;
         this.name = name;
-        this.available = available;
+        this.memberSubs = memberSubs;
+
     }
 
-    public boolean isAvailable() {
-        return available;
-    }
-    public void setAvailable(boolean available) {
-        this.available = available;
-    }
     public String getName() {
         return name;
     }
@@ -30,5 +27,11 @@ public class Member {
     }
     public int getAge() {
         return age;
+    }
+    public void setMemberSubs(List<MemberSub> memberSubs) {
+        this.memberSubs = memberSubs;
+    }
+    public List<MemberSub> getMemberSubs() {
+        return memberSubs;
     }
 }
